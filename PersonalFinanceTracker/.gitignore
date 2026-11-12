@@ -1,0 +1,9 @@
+# Local SQLite database
+/database/*.sqlite
+/database/*.sqlite3
+/database/*.db
+
+# SQLite temporary files
+/database/*.sqlite-journal
+/database/*.sqlite-wal
+/database/*.sqlite-shm

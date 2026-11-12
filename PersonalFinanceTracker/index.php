@@ -358,7 +358,7 @@ $jsonFlags = JSON_HEX_TAG
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | FinTrack</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=20261113-dashboard-summary">
 </head>
 <body>
 
@@ -403,6 +403,10 @@ $jsonFlags = JSON_HEX_TAG
 
             <a href="reports.php" class="nav-item">
                 <span>▥</span> Laporan
+            </a>
+
+            <a href="tutorial.php" class="nav-item">
+                <span>ⓘ</span> Tutorial
             </a>
 
             <a href="settings.php" class="nav-item">

@@ -48,10 +48,16 @@ select {
 }
 
 .sidebar {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
     width: 245px;
+    height: 100vh;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--surface);
     border-right: 1px solid var(--border);
     padding: 28px 18px 18px;
@@ -528,12 +534,15 @@ select {
     }
 
     .sidebar {
-        position: static;
-        width: 100%;
-        padding: 16px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-    }
+    position: static;
+    width: 100%;
+    height: auto;
+    align-self: stretch;
+    overflow: visible;
+    padding: 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+}
 
     .brand {
         margin-bottom: 16px;
@@ -586,6 +595,7 @@ select {
     .form-actions {
         flex-wrap: wrap;
     }
+}
 
 
 /* =========================================
@@ -611,14 +621,38 @@ select {
 }
 
 .opening-info {
-    margin: 0 0 20px;
-    padding: 12px 15px;
-    border: 1px solid #dbe8df;
-    background: #edf5ef;
-    color: #3b5948;
-    border-radius: 9px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    padding: 13px 16px;
+    border: 1px solid #dce9e0;
+    background: linear-gradient(100deg, #f0f7f2 0%, #f8fbf9 100%);
+    color: #52675a;
+    border-radius: 12px;
     font-size: 12px;
     line-height: 1.6;
+}
+
+.opening-info::before {
+    content: "i";
+    display: inline-flex;
+    flex: 0 0 25px;
+    width: 25px;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #deede2;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.opening-info strong {
+    color: var(--primary);
 }
 
 .dashboard-stat-grid {
@@ -630,17 +664,30 @@ select {
 
 .stat-card {
     min-width: 0;
-    padding: 21px;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 21px 19px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    box-shadow: 0 3px 12px rgba(25, 45, 34, 0.025);
+    box-shadow: 0 5px 18px rgba(25, 45, 34, 0.045);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.stat-card:not(.balance-stat) {
+    border-top: 3px solid #e6ece8;
+}
+
+.stat-card:not(.balance-stat):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 22px rgba(25, 45, 34, 0.08);
 }
 
 .balance-stat {
     color: #ffffff;
-    background: var(--primary);
+    background: linear-gradient(135deg, #234f43 0%, #34745d 100%);
     border-color: var(--primary);
+    box-shadow: 0 8px 22px rgba(35, 79, 67, 0.16);
 }
 
 .stat-topline {
@@ -650,6 +697,7 @@ select {
     gap: 10px;
     color: var(--muted);
     font-size: 12px;
+    font-weight: 600;
 }
 
 .balance-stat .stat-topline {
@@ -660,9 +708,9 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
     background: #f0f4f1;
     color: var(--primary);
     font-size: 14px;
@@ -687,12 +735,16 @@ select {
 }
 
 .stat-value {
-    margin: 20px 0 12px;
+    margin: 17px 0 10px;
     overflow-wrap: anywhere;
-    font-size: clamp(19px, 1.7vw, 25px);
+    font-size: clamp(21px, 1.8vw, 27px);
     line-height: 1.35;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.7px;
+}
+
+.balance-stat .stat-value {
+    font-size: clamp(24px, 2vw, 30px);
 }
 
 .income-text {
@@ -705,13 +757,19 @@ select {
 
 .stat-note {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.6;
 }
 
 .balance-stat .stat-note {
-    color: #d8e7dd;
+    color: #dcebe2;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-card {
+        transition: none;
+    }
+
 
 .dashboard-chart-grid {
     display: grid;
@@ -1357,6 +1415,59 @@ select {
         width: 100%;
     }
 }
+
+
+/* =========================================
+   DASHBOARD RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+    .dashboard-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    /* Saldo utama menggunakan lebar penuh */
+    .balance-stat {
+        grid-column: 1 / -1;
+    }
+
+    /* Kartu transaksi juga menggunakan lebar penuh */
+    .dashboard-stat-grid > .stat-card:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .stat-card {
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .stat-value {
+        margin: 14px 0 8px;
+        font-size: 21px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .balance-stat .stat-value {
+        font-size: 26px;
+    }
+
+    .stat-note {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .stat-topline {
+        font-size: 11px;
+    }
+
+    .opening-info {
+        align-items: flex-start;
+        line-height: 1.7;
+    }
+}
+
 
 
 }

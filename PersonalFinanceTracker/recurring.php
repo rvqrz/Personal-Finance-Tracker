@@ -1031,6 +1031,10 @@ $csrf = csrfToken();
                 <span>▥</span> Laporan
             </a>
 
+            <a href="tutorial.php" class="nav-item">
+                <span>ⓘ</span> Tutorial
+            </a>
+
             <a href="settings.php" class="nav-item">
                 <span>⚙</span> Pengaturan
             </a>
